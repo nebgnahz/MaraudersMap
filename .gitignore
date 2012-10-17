@@ -1,4 +1,30 @@
-# ignore for android application
+### ignore for python code
+*.mo
+*.egg-info
+*.egg
+*.EGG
+*.EGG-INFO
+bin
+build
+develop-eggs
+downloads
+eggs
+fake-eggs
+parts
+dist
+.installed.cfg
+.mr.developer.cfg
+.hg
+.bzr
+.svn
+*.pyc
+*.pyo
+*.tmp*
+
+
+
+
+### ignore for android application
 
 
 # built application files
