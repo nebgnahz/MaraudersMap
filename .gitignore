@@ -1,3 +1,6 @@
+### ignore .DS_Store
+*.DS_Store
+
 ### ignore for python code
 *.mo
 *.egg-info
