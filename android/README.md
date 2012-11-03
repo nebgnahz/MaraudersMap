@@ -21,6 +21,3 @@ Then upload the file to the computer (using Dropbox or whatever you prefer), the
     xlabel('Frequency (Hz)')
     grid
 You will find that in frequency domain, we have recovered the modulated signal (with attenuation).
-
-
-
