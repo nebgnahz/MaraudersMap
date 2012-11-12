@@ -1,0 +1,23 @@
+
+<html>
+  <head>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io.connect('http://localhost:8888');
+      socket.on('news', function (data) {
+          console.log(data);
+          socket.emit('my other event', { my: 'data' });
+      });
+      socket.on('newData', function(data) {
+        document.getElementById("text").innerHTML += data + "\n";
+      });
+     </script>
+  </head>
+  <body>
+    <h1>Indoor Localization</h1>
+    <div id="log">
+      <p id="text"></p>
+    </div>
+  </body>
+</html>
+
