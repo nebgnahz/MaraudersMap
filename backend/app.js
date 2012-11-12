@@ -45,6 +45,7 @@ function handler (req, res) {
     var path = url.parse(req.url).pathname;
     var query = querystring.parse(url.parse(req.url).query);
     switch (path){
+    // by default, return index.html file
     case '/':
 	fs.readFile(__dirname + '/index.html',
 		    function (err, data) {
