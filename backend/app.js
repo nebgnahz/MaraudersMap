@@ -10,7 +10,7 @@ var http = require('http')
 app.listen(8888);
 
 // sMAP interface configuration
-var data = 'uuid = "90f10646-11e6-5bae-b2b2-3a173dbbcd0a"'
+var data = 'uuid = "d8401a6e-2313-11e2-99e6-b8f6b119696f"'
 
 var options = {
     host: 'ar1.openbms.org',
@@ -58,6 +58,20 @@ function handler (req, res) {
 		    });
 	break;
     case '/favicon.ico':
+	fs.stat(__dirname+path, function(error, stat) {
+	    var rs;
+	    res.writeHead(200, {
+		'Content-Type' : 'image/x-icon',
+		'Content-Length' : stat.size
+	    });
+	    rs = fs.createReadStream(__dirname + path);
+	    // pump the file to the response
+	    util.pump(rs, res, function(err) {
+		if(err) {
+		    throw err;
+		}
+	    });
+	});
 	break;
     default:
 	if (/\.(js|html|swf)$/.test(path)){
@@ -85,6 +99,25 @@ function handler (req, res) {
 		// important!
 		res.writeHead(200, {
 		    'Content-Type' : 'image/gif',
+		    'Content-Length' : stat.size
+		});
+		rs = fs.createReadStream(__dirname + path);
+		// pump the file to the response
+		util.pump(rs, res, function(err) {
+		    if(err) {
+			throw err;
+		    }
+		});
+	    });
+	    break;
+	}
+	else if (/\.(png)$/.test(path)){
+	    fs.stat(__dirname+path, function(error, stat) {
+		var rs;
+		// We specify the content-type and the content-length headers
+		// important!
+		res.writeHead(200, {
+		    'Content-Type' : 'image/png',
 		    'Content-Length' : stat.size
 		});
 		rs = fs.createReadStream(__dirname + path);

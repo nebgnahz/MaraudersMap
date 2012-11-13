@@ -1,23 +1,56 @@
+<!doctype html>
 <html>
   <head>
+    <title>DOP Localization</title>
+    <link rel="SHORTCUT ICON" href="/favicon.ico">
+    <link rel="stylesheet" href="site-media/main.css" type="text/css" media="all">
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      var socket = io.connect('http://localhost:8888');
-      socket.on('news', function (data) {
-          console.log(data);
-          socket.emit('my other event', { my: 'data' });
-      });
-      socket.on('newData', function(data) {
-        document.getElementById("text").innerHTML += data + "\n";
-      });
-     </script>
+    <script src="http://jqueryjs.googlecode.com/files/jquery-1.2.6.min.js"></script>
+    <link href="js/prettify.css" type="text/css" rel="stylesheet" />
+    <script type="text/javascript" src="js/prettify.js"></script>
   </head>
-  <body>
-    <h1>Indoor Localization</h1>
-    <img src="images/DOPcenter.gif" width="600px"/>
-    <div id="log">
-      <p id="text"></p>
+  <body onLoad="prettyPrint()">
+    <div class="site">
+    
+      <h1>
+	<a class="brand" href="#">
+	  <img src="images/marauders.png" width="40" style="position:absolute;top:27px;" alt="project logo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marauder's Map
+	</a>
+      </h1>
+      <canvas id="map" width="1000" height="400" style="border:1px solid #c3c3c3;">
+      Your browser does not support the canvas element.
+      </canvas>
+
+      <pre class="prettyprint" width="1000">
+{
+  "location" : {
+    "DisplayName" : "Ben Zhang",
+    "UniqueName" : "ee149.benzhang",
+    "Readings" : [[1352756398000, 545.11]],
+    "uuid" : "d8401a6e-2313-11e2-99e6-b8f6b119696f"
+  }
+}    </pre>
+      
+      <div id="log">
+	<p id="text"></p>
+      </div>
+    
+      <footer>
+	<div class="foot-menu">
+	  </br>
+	  Related Links:
+	  <ul>
+	    <li class="current_page_item">
+	      <a href="http://github.com/nebgnahz/MaraudersMap" title="Home">Github</a>
+	    </li>
+	    <li class="current_page_item">
+	      <a href="http://code.google.com/p/smap-data/" title="Home">sMAP</a></li>	      
+	  </ul>
+	</div>
+      </footer>
     </div>
   </body>
+  <script src="site-media/parse.js"></script>
+  <script src="site-media/showMap.js"></script>
 </html>
 
