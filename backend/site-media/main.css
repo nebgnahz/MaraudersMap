@@ -37,6 +37,61 @@ a:hover {
     color: #0f3647;
 }
 
+h2 {
+    border-bottom-color: rgb(68, 68, 68);
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-left-color: rgb(68, 68, 68);
+    border-left-style: none;
+    border-left-width: 0px;
+    border-right-color: rgb(68, 68, 68);
+    border-right-style: none;
+    border-right-width: 0px;
+    border-top-color: rgb(68, 68, 68);
+    border-top-style: none;
+    border-top-width: 0px;
+    clear: both;
+    color: rgb(68, 68, 68);
+    display: block;
+    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: normal;
+    height: 26px;
+    line-height: 26px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    overflow-y: visible;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    text-rendering: optimizelegibility;
+    vertical-align: baseline;
+    width: 960px;
+}
+
+#arrowUpRight {
+    position: absolute;
+    right: 10%;
+    top: 335px;
+}
+#tech {
+    text-align: left;
+    width: 100%;
+    border-bottom: 1px solid #EDEDED;
+    border-top: 1px solid #EDEDED;
+    display: inline-block !important;
+    border-top: 1px solid #EDEDED;
+    clear: both;
+    font-size: 15px;
+    max-width: 1000px;
+    margin-top: 24px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+}
 
 footer {
     text-align: left;

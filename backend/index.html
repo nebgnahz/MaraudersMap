@@ -11,17 +11,32 @@
   </head>
   <body onLoad="prettyPrint()">
     <div class="site">
-    
       <h1>
 	<a class="brand" href="#">
 	  <img src="images/marauders.png" width="40" style="position:absolute;top:27px;" alt="project logo">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Marauder's Map
 	</a>
       </h1>
       <canvas id="map" width="1000" height="400" style="border:1px solid #c3c3c3;">
-      Your browser does not support the canvas element.
+	Your browser does not support the canvas element.
       </canvas>
 
-      <pre class="prettyprint" width="1000">
+      <div id="tech">
+      <h2>Technology behind</h2> <br/>
+	<img src="images/sound.png" width="200"/>
+	<img src="images/arrowRight.png" width="100" />
+	<img src="images/nexus_7.png" width="130"/>	
+	<img src="images/arrowRight.png" width="100"/>
+	<img src="images/server.png" width="350"/>
+	<!-- <img display="none" src="images/arrowRightUp.png" id="arrowUpRight" width="100"/> -->
+	<p>
+	Ultrasound Beacon per room &nbsp;&nbsp; --------------> &nbsp;&nbsp; Smartphone receiver &nbsp;&nbsp; --------> &nbsp;&nbsp; Cloud as aggregator and processor  &nbsp;&nbsp; ----------->  &nbsp;&nbsp; Visualizer
+																									    </p>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	Data Schema:
+      <pre class="prettyprint">
 {
   "location" : {
     "DisplayName" : "Ben Zhang",
@@ -29,28 +44,38 @@
     "Readings" : [[1352756398000, 545.11]],
     "uuid" : "d8401a6e-2313-11e2-99e6-b8f6b119696f"
   }
-}    </pre>
-      
+}</pre>
+
+      </div>
+     
       <div id="log">
 	<p id="text"></p>
       </div>
-    
+										
       <footer>
 	<div class="foot-menu">
-	  </br>
-	  Related Links:
+	  <h2>
+	    Related Links:
+	  </h2>
 	  <ul>
-	    <li class="current_page_item">
-	      <a href="http://github.com/nebgnahz/MaraudersMap" title="Home">Github</a>
+	    <li>
+	      <a href="http://github.com/nebgnahz/MaraudersMap">Github Repo</a>
 	    </li>
-	    <li class="current_page_item">
-	      <a href="http://code.google.com/p/smap-data/" title="Home">sMAP</a></li>	      
+	    <li>
+	      <a href="http://code.google.com/p/smap-data/">sMAP</a>
+	    </li>
+	    <li>
+	      <a href="http://json.parser.online.fr">JSON parser</a>
+	    </li>
+	    <li>
+	      <a href="http://www.epochconverter.com">Unix Timestamp</a>
+	    </li>
 	  </ul>
 	</div>
       </footer>
-    </div>
-  </body>
-  <script src="site-media/parse.js"></script>
-  <script src="site-media/showMap.js"></script>
+</div>
+</body>
+ <script src="site-media/parse.js"></script>
+ <script src="site-media/showMap.js"></script>
 </html>
 
