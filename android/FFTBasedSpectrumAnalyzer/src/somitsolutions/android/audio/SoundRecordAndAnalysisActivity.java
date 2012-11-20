@@ -9,13 +9,17 @@ import android.media.AudioRecord;
 import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 import ca.uol.aig.fftpack.RealDoubleFFT;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class SoundRecordAndAnalysisActivity extends Activity implements OnClickListener{
@@ -37,6 +41,9 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     Canvas canvas;
     Paint paint;
     static SoundRecordAndAnalysisActivity mainActivity;
+    
+    FileWriter fw = null;
+    BufferedWriter bw = null;
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,11 +94,21 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             int xScale = 8;
             canvas.drawColor(Color.BLACK);
             paint.setStrokeWidth(2);
-            for (int i = xOffset; i < toTransform[0].length; i++) {
-                int x = (i*1 - xOffset) * xScale;
-                int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*10;
-                int downy = 100*10;
-                canvas.drawLine(x, downy, x, upy, paint);
+            try {
+                java.util.Date date = new java.util.Date();
+                bw.write("\n"+date.getTime() + " ");
+                for (int i = xOffset; i < 1970/*toTransform[0].length*/; i++) {
+                    int x = (i*1 - xOffset) * xScale;
+                    int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*10;
+                    int downy = 100*10;
+                    canvas.drawLine(x, downy, x, upy, paint);
+                    bw.write(Double.toString(Math.abs(toTransform[0][i]))+" ");
+                }
+
+                bw.write(";");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
             }
 
             int textSize = 40;
@@ -158,11 +175,34 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     	started = false;
         startStopButton.setText("Start");
     	recordTask.cancel(true);
+        try {
+                if (bw != null) {
+                        bw.close();
+                        bw = null;
+                }
+        	if (fw != null) {
+        	        fw.close();
+        	        fw = null;
+        	}
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
         
     public void onStart(){
     	super.onStart();
+    	java.util.Date date = new java.util.Date();
     	
+    	try {
+    	    //bufferedOutputStream jk = new bufferedOutputStream (New FileOutputStream ("out_" + data.getTime()+ ".txt")));
+    	    
+    	    fw = new FileWriter(Environment.getExternalStorageDirectory().toString() + "/out_" + date.getTime() + ".txt");
+    	    bw = new BufferedWriter(fw);
+    	}
+    	catch (IOException e) {
+    	    e.printStackTrace();
+    	}
     	setContentView(R.layout.main);
         
         startStopButton = (Button) this.findViewById(R.id.StartStopButton);
