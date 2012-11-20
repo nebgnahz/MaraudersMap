@@ -19,7 +19,7 @@ To plot nicely in matlab, do
 	
 	surf(1:(size(data, 2)-1), 1:size(data, 1), data(:, 2:end));shading interp
 So you will get the figure below.
-![Illustration of Signals](./ultrasound_3d.png)
+![Illustration of Signals](https://raw.github.com/nebgnahz/MaraudersMap/master/matlab/Ultrasound_3d.png)
 
 ## Basic data analysis
 
