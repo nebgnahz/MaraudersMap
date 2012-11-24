@@ -29,4 +29,12 @@
         android:layout_marginBottom="30dp"
         android:text="Start" />
 
+    <EditText
+        android:id="@+id/decodedID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:ems="10" />
+
 </RelativeLayout>
