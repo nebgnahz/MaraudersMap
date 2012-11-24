@@ -256,7 +256,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             }
             if (intDecodedID != pastIntDecodedID) {
                 pastIntDecodedID = intDecodedID;
-                sendJson(intDecodedID + "");
+                sendJson(getUnixTime(), intDecodedID + "");
             }
             /*
             for (dataIdx = 7; dataIdx < 8; dataIdx++) {
@@ -386,10 +386,12 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
         //imageView.
         mainActivity = this;
     }
-    private String getUnixTime() {
+    
+    protected String getUnixTime() {
         return  Long.toString(System.currentTimeMillis());
     };
-    protected void sendJson(final String RoomId) {
+    
+    protected void sendJson(final String UnixTime, final String RoomId) {
         try {
             // http://ar1.openbms.org:8079/add/KaWpzcDzD6nyjiiliuNMqJiXZzKHxwQPFiSR
             final URI url = new URI("http://ar1.openbms.org:8079/add/KaWpzcDzD6nyjiiliuNMqJiXZzKHxwQPFiSR");
@@ -406,10 +408,10 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                         HttpPost post = new HttpPost(url);
                         location.put("DisplayName", "Ben Zhang");
                         location.put("UniqueName", "ee149.benzhang");
-                        location.put("Readings", "[["+ getUnixTime() + "," + RoomId + "]]");
+                        location.put("Readings", "[["+ UnixTime + "," + RoomId + "]]");
                         location.put("UniqueName", "ee149.benzhang");
                         location.put("uuid", "d8401a6e-2313-11e2-99e6-b8f6b119696f");
-                        json.put("location", location.toString());
+                        json.put("location", location);
                         StringEntity se = new StringEntity(json.toString());  
                         se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
                         post.setEntity(se);
