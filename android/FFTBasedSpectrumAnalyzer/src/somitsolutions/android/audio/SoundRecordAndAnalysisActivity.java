@@ -63,10 +63,17 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     
     FileWriter fw = null;
     BufferedWriter bw = null;
-    int pastIntDecodedID = 0;
+    int[] pastIntDecodedID = new int [32];
+    boolean pastIntDecodedIDChanged = false;
     
     double[] decodedResult = new double[8];
+    boolean useFileWrite = false;
+
+    double[] maxData = new double[8];
+    int[] refSignalIdx = new int[8];
+    double[] noiseRef = new double[8];
     
+    String userName = "Hokeun";
     //Dictionary d = new Hashtable();
     
     /** Called when the activity is first created. */
@@ -122,16 +129,22 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             paint.setStrokeWidth(2);
             try {
                 java.util.Date date = new java.util.Date();
-                bw.write("\n"+date.getTime() + " ");
+                if (useFileWrite) {
+                    bw.write("\n"+date.getTime() + " ");
+                }
                 for (int i = xOffset; i < 1970/*toTransform[0].length*/; i++) {
                     int x = (i*1 - xOffset) * xScale;
                     int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*10;
                     int downy = 100*10;
                     canvas.drawLine(x, downy, x, upy, paint);
-                    bw.write(Double.toString(Math.abs(toTransform[0][i]))+" ");
+                    if (useFileWrite) {
+                        bw.write(Double.toString(Math.abs(toTransform[0][i]))+" ");
+                    }
                 }
 
-                bw.write(";");
+                if (useFileWrite) {
+                    bw.write(";");
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -144,81 +157,19 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                 }
             }
             
-            double[] maxData = new double[8];
             
             for (int i = 0; i < 8; i++) {
                 maxData[i] = -1.0;
             }
             
-            int[] refSignalIdx = new int[8];
-            refSignalIdx[0] = 1857;
-            refSignalIdx[1] = 1868;
-            refSignalIdx[2] = 1880;
-            refSignalIdx[3] = 1892;
-            refSignalIdx[4] = 1904;
-            refSignalIdx[5] = 1915;
-            refSignalIdx[6] = 1927;
-            refSignalIdx[7] = 1938;
-            
             int refRange = 1;
-            int dataIdx = 0;
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
+            for (int dataIdx = 0; dataIdx < 8; dataIdx++) {
+                for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
+                    if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
+                        maxData[dataIdx] = Math.abs(toTransform[0][i]);
+                    }
                 }
             }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-            
-            for (int i = (refSignalIdx[dataIdx] - refRange); i < (refSignalIdx[dataIdx] + refRange); i++) {
-                if (Math.abs(toTransform[0][i]) > maxData[dataIdx]) {
-                    maxData[dataIdx] = Math.abs(toTransform[0][i]);
-                }
-            }
-            dataIdx++;
-
-            double[] noiseRef = new double[8];
             
             for (int i = 0; i < 8; i++) {
                 noiseRef[i] = -1.0;
@@ -226,7 +177,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             
             String decodedID = "";
             int intDecodedID = 0;
-            for (dataIdx = 0; dataIdx < 8; dataIdx++) {
+            for (int dataIdx = 0; dataIdx < 8; dataIdx++) {
                 double tempBaseNoise = 0;
                 if (dataIdx < 4) {
                     tempBaseNoise = 0.15;
@@ -254,11 +205,29 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     intDecodedID <<= 1;
                 }
             }
+            if (intDecodedID != pastIntDecodedID[0]) {
+                pastIntDecodedIDChanged = true;
+            }
+            if (pastIntDecodedIDChanged) {
+                for (int i = 0; i < pastIntDecodedID.length; i++) {
+                    if (intDecodedID != pastIntDecodedID[i]) {
+                        break;
+                    }
+                    if (i == (pastIntDecodedID.length - 1 )) {
+                        pastIntDecodedIDChanged = false;
+                        sendJson(getUnixTime(), intDecodedID + "");
+                    }
+                }
+            }
+            for (int i = pastIntDecodedID.length - 1; i > 0; i--) {
+                pastIntDecodedID[i] = pastIntDecodedID[i-1];
+            }
+            pastIntDecodedID[0] = intDecodedID;
+            /*
             if (intDecodedID != pastIntDecodedID) {
                 pastIntDecodedID = intDecodedID;
                 sendJson(getUnixTime(), intDecodedID + "");
             }
-            /*
             for (dataIdx = 7; dataIdx < 8; dataIdx++) {
                 if (maxData[dataIdx] > (basicNoiseRef / 1.5)
                         && maxData[dataIdx] > Math.abs(toTransform[0][refSignalIdx[dataIdx] - 2])
@@ -319,10 +288,16 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
 
     public void onClick(View v) {
         if (started) {
+            TextView t = (TextView)findViewById(R.id.userName);
+            t.setFocusable(true);
+            //t.setActivated(true);
             started = false;
             startStopButton.setText("Start");
             recordTask.cancel(true);
         } else {
+            TextView t = (TextView)findViewById(R.id.userName);
+            t.setFocusable(false);
+            userName = t.getText().toString();
             started = true;
             startStopButton.setText("Stop");
             recordTask = new RecordAudio();
@@ -339,18 +314,20 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     	started = false;
         startStopButton.setText("Start");
     	recordTask.cancel(true);
-        try {
-                if (bw != null) {
-                        bw.close();
-                        bw = null;
-                }
-        	if (fw != null) {
-        	        fw.close();
-        	        fw = null;
-        	}
-        }
-        catch (IOException e) {
-            e.printStackTrace();
+        if(useFileWrite) {
+            try {
+                    if (bw != null) {
+                            bw.close();
+                            bw = null;
+                    }
+            	if (fw != null) {
+            	        fw.close();
+            	        fw = null;
+            	}
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
         
@@ -358,18 +335,31 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     	super.onStart();
     	java.util.Date date = new java.util.Date();
 
+        refSignalIdx[0] = 1857;
+        refSignalIdx[1] = 1868;
+        refSignalIdx[2] = 1880;
+        refSignalIdx[3] = 1892;
+        refSignalIdx[4] = 1904;
+        refSignalIdx[5] = 1915;
+        refSignalIdx[6] = 1927;
+        refSignalIdx[7] = 1938;
         for (int i = 0; i < 8; i++) {
             decodedResult[i] = 0.0;
         }
-    	try {
-    	    //bufferedOutputStream jk = new bufferedOutputStream (New FileOutputStream ("out_" + data.getTime()+ ".txt")));
+        for (int i = 0; i < pastIntDecodedID.length; i++) {
+            pastIntDecodedID[i] = 0;
+        }
+        if(useFileWrite) {
+            try {
+                //bufferedOutputStream jk = new bufferedOutputStream (New FileOutputStream ("out_" + data.getTime()+ ".txt")));
     	    
-    	    fw = new FileWriter(Environment.getExternalStorageDirectory().toString() + "/out_" + date.getTime() + ".txt");
-    	    bw = new BufferedWriter(fw);
-    	}
-    	catch (IOException e) {
-    	    e.printStackTrace();
-    	}
+                fw = new FileWriter(Environment.getExternalStorageDirectory().toString() + "/out_" + date.getTime() + ".txt");
+                bw = new BufferedWriter(fw);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     	setContentView(R.layout.main);
         
         startStopButton = (Button) this.findViewById(R.id.StartStopButton);
@@ -406,10 +396,9 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     JSONObject json = new JSONObject();
                     try{
                         HttpPost post = new HttpPost(url);
-                        location.put("DisplayName", "Ben Zhang");
-                        location.put("UniqueName", "ee149.benzhang");
+                        location.put("DisplayName", userName);
+                        location.put("UniqueName", "ee149." + userName);
                         location.put("Readings", "[["+ UnixTime + "," + RoomId + "]]");
-                        location.put("UniqueName", "ee149.benzhang");
                         location.put("uuid", "d8401a6e-2313-11e2-99e6-b8f6b119696f");
                         json.put("location", location);
                         StringEntity se = new StringEntity(json.toString());  
