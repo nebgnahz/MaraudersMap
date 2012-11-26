@@ -1,10 +1,11 @@
 # validating idea
 In Matlab, use the following command to generate sound:
    
-    t=linspace(0,10,960000);
-    y=(sin(21000*2*pi*t) + sin(20000*2*pi*t) ) / 2;
- 
-Then we suggest using the default player to play the ultrasound, so you will need to write `y` to a .wav file:
+    t=linspace(0,10,960000); 
+	y=sin(20000*2*pi*t)+sin(20250*2*pi*t)+sin(20375*2*pi*t);
+	y=y./3;
+	
+You can combine sine waves by adding a sin function with a specified frequency. In total, eight frequencies from 20000 to 20875 can be used increasing by 125 for each. You should make sure to divide the combined signal y by the total number of sine waves. Because the received strength of the signal tends to attenuate as the frequency gets higher, using lower frequencies is preferable.
 
     wavwrite(y,96000,'filename.wav');
     
