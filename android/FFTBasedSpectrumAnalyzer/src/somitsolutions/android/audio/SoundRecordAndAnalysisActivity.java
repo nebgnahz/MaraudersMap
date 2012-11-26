@@ -25,8 +25,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -36,6 +39,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 //import com.example.myfirstapp.R;
@@ -215,7 +219,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     }
                     if (i == (pastIntDecodedID.length - 1 )) {
                         pastIntDecodedIDChanged = false;
-                        sendJson(getUnixTime(), intDecodedID + "");
+                        sendJson(getUnixTime(), Long.valueOf(intDecodedID));
                     }
                 }
             }
@@ -377,11 +381,11 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
         mainActivity = this;
     }
     
-    protected String getUnixTime() {
-        return  Long.toString(System.currentTimeMillis());
+    protected Long getUnixTime() {
+        return System.currentTimeMillis();
     };
     
-    protected void sendJson(final String UnixTime, final String RoomId) {
+    protected void sendJson(final Long UnixTime, final Long RoomId) {
         try {
             // http://ar1.openbms.org:8079/add/KaWpzcDzD6nyjiiliuNMqJiXZzKHxwQPFiSR
             final URI url = new URI("http://ar1.openbms.org:8079/add/KaWpzcDzD6nyjiiliuNMqJiXZzKHxwQPFiSR");
@@ -398,7 +402,14 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                         HttpPost post = new HttpPost(url);
                         location.put("DisplayName", userName);
                         location.put("UniqueName", "ee149." + userName);
-                        location.put("Readings", "[["+ UnixTime + "," + RoomId + "]]");
+                        // JSON formatting to fit sMAP server
+                        List<Long> list = new ArrayList<Long>();
+                        list.add(UnixTime);
+                        list.add(RoomId);
+                        JSONArray report = new JSONArray(list);
+                        Collection<JSONArray> items = new ArrayList<JSONArray>();
+                        items.add(report);
+                        location.put("Readings", new JSONArray(items));
                         location.put("uuid", "d8401a6e-2313-11e2-99e6-b8f6b119696f");
                         json.put("location", location);
                         StringEntity se = new StringEntity(json.toString());  

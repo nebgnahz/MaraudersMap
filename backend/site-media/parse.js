@@ -11,6 +11,15 @@ socket.on('news', function (data) {
 
 // mapping hash table
 var Mapping = {};
+
+// 72, 80, 144, 160, 176
+Mapping["72"] = new Point(277, 299);
+Mapping["80"] = new Point(239, 210);
+Mapping["144"] = new Point(277, 216); 
+Mapping["160"] = new Point(193, 105);
+Mapping["176"] = new Point(233, 105); 
+
+
 Mapping["545.1"] = new Point(277, 299);
 Mapping["545.2"] = new Point(239, 210);
 Mapping["545.3"] = new Point(277, 216); 
@@ -25,6 +34,7 @@ Mapping["545.11"] = new Point(474, 137);
 Mapping["545.12"] = new Point(497, 231); 
 Mapping["545.13"] = new Point(534, 149);
 Mapping["545.14"] = new Point(590, 153);
+
 
 // starting from 545P
 Mapping["545.16"] = new Point(638, 161);
