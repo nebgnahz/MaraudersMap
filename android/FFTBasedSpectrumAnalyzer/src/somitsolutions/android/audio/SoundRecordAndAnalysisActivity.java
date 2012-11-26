@@ -293,14 +293,16 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     public void onClick(View v) {
         if (started) {
             TextView t = (TextView)findViewById(R.id.userName);
-            t.setFocusable(true);
+            t.setEnabled(true);
+            sendJson(getUnixTime(), Long.valueOf(0));
             //t.setActivated(true);
             started = false;
             startStopButton.setText("Start");
             recordTask.cancel(true);
         } else {
             TextView t = (TextView)findViewById(R.id.userName);
-            t.setFocusable(false);
+            t.setEnabled(false);
+            pastIntDecodedIDChanged = true;
             userName = t.getText().toString();
             started = true;
             startStopButton.setText("Stop");
@@ -316,6 +318,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     public void onStop(){
     	super.onStop();
     	started = false;
+        sendJson(getUnixTime(), Long.valueOf(0));
         startStopButton.setText("Start");
     	recordTask.cancel(true);
         if(useFileWrite) {
