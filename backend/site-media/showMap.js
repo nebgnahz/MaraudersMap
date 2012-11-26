@@ -34,22 +34,27 @@ function draw() {
     var i = 0;
     for (var key in displayList) {
 	// do something with key
-	var point = Mapping[displayList[key]];
-	
-	context.fillStyle = "rgba(" + colorList[i] + ", 0.3)";
-	context.beginPath();
-	context.moveTo(point.x, point.y);
-	context.arc(point.x, point.y, 15, 0, Math.PI*2, false);
-	context.fill();
+	if (displayList[key] in Mapping) {
+            var point = Mapping[displayList[key]];
+	    
+	    context.fillStyle = "rgba(" + colorList[i] + ", 0.3)";
+	    context.beginPath();
+	    context.moveTo(point.x, point.y);
+	    context.arc(point.x + Math.floor((Math.random()*10)+1), 
+			point.y + Math.floor((Math.random()*10)+1)
+			, 15, 0, Math.PI*2, false);
+	    context.fill();
 
-	context.fillStyle = 'rgba(' + colorList[i] + ', 1)';
-	context.moveTo(825, i*30+50);
-	context.arc(825, i*30+50, 8, 0, Math.PI*2, false);
-	context.fill();
-	context.font = 'bold 20px sans-serif';
-	context.fillStyle = 'black'
-	context.textBaseline = "middle";
-	context.fillText(displayNameList[key], 845, i*30+50);
-	i++;
+	    context.fillStyle = 'rgba(' + colorList[i] + ', 1)';
+	    context.moveTo(825, i*30+50);
+	    context.arc(825, i*30+50, 8, 0, Math.PI*2, false);
+	    context.fill();
+	    context.font = 'bold 20px sans-serif';
+	    context.fillStyle = 'black'
+	    context.textBaseline = "middle";
+	    context.fillText(displayNameList[key], 845, i*30+50);
+	    i++;
+	}
+	
     }
 }
