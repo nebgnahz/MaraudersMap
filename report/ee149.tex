@@ -59,13 +59,15 @@ E-mail: \url{hargreaves.z@gmail.com}}
 \maketitle
 
 \begin{abstract}
-This is the abstract of entire project report.
+In this project, we have designed and implemented an ultrasound-based indoor localization system (named Marauder's Map), which could tell the semantic location of a smartphone holder.
+Based on the observation that almost all the smartphones are capable of detecting human-inaudiable sound (20kHz - 22kHz), we use the ultrasound beacon to broadcast the unique room ID.
+Effective filtering algorithm that processing such sound signal yields a pretty good accuracy (over 90\%) against most noises like claps, speeches, coughes.
+ % we probably have to test this a bit %
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
-
-Let's talk about the introduction of the problem.
+\input{intro.tex}
+\input{related.tex}
 
 %% template to put figure
 % Layers figure
@@ -75,12 +77,7 @@ Let's talk about the introduction of the problem.
 %   \label{fig:label}
 % \end{figure}
 
-\section{Related Works}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Semantic Localization}
-
-
 
 % use section* for acknowledgement
 \section*{Acknowledgment}
