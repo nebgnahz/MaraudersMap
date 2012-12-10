@@ -262,15 +262,21 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     }
                     if (displayDecodedID == 144) {
                         // 545 G
-                        posCanvas.drawCircle(420, 440, circleSize, posPaint);
+                        //posCanvas.drawCircle(420, 440, circleSize, posPaint);
+                        // 545 R
+                        posCanvas.drawCircle(900, 500, circleSize, posPaint);
                     }
                     if (displayDecodedID == 80) {
                         // 545 B
-                        posCanvas.drawCircle(280, 440, circleSize, posPaint);
+                        //posCanvas.drawCircle(280, 440, circleSize, posPaint);
+                        // 545 N
+                        posCanvas.drawCircle(780, 380, circleSize, posPaint);
                     }
                     if (displayDecodedID == 72) {
                         // 545 A
-                        posCanvas.drawCircle(330, 580, circleSize, posPaint);
+                        //posCanvas.drawCircle(330, 580, circleSize, posPaint);
+                        // 545 K
+                        posCanvas.drawCircle(600, 350, circleSize, posPaint);
                     }
                     //posCanvas.drawCircle(50+displayDecodedID, 50+displayDecodedID, 12, posPaint);
                     //mapImageView.o
