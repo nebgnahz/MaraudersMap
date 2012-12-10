@@ -152,7 +152,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                 }
                 for (int i = xOffset; i < 1970/*toTransform[0].length*/; i++) {
                     int x = (i*1 - xOffset) * xScale;
-                    int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*1+900;
+                    int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*7+300;
                     if (upy < 300) upy = 300;
                     int downy = 100*10;
                     if (!showMap) {
