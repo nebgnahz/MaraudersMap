@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, SoundRecordAndAnalysisActivity!</string>
     <string name="app_name">SoundRecordAndAnalysis</string>
+    <color name="background">#FFFFFF</color>
 
 </resources>

@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import ca.uol.aig.fftpack.RealDoubleFFT;
@@ -63,11 +64,19 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     Bitmap bitmap;
     Canvas canvas;
     Paint paint;
+
+    ImageView mapImageView;
+
+    ImageView posImageView;
+    Bitmap posBitmap;
+    Canvas posCanvas;
+    Paint posPaint;
+    
     static SoundRecordAndAnalysisActivity mainActivity;
     
     FileWriter fw = null;
     BufferedWriter bw = null;
-    int[] pastIntDecodedID = new int [32];
+    int[] pastIntDecodedID = new int [16];
     boolean pastIntDecodedIDChanged = false;
     
     double[] decodedResult = new double[8];
@@ -79,6 +88,11 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     
     String userName = "Hokeun";
     //Dictionary d = new Hashtable();
+    
+    boolean showMap = false;
+    boolean sendToServer = false;
+    
+    int displayDecodedID = 0;
     
     /** Called when the activity is first created. */
     @Override
@@ -138,9 +152,12 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                 }
                 for (int i = xOffset; i < 1970/*toTransform[0].length*/; i++) {
                     int x = (i*1 - xOffset) * xScale;
-                    int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*10;
+                    int upy = (int) (100 - Math.abs((toTransform[0][i] * 10)))*1+900;
+                    if (upy < 300) upy = 300;
                     int downy = 100*10;
-                    canvas.drawLine(x, downy, x, upy, paint);
+                    if (!showMap) {
+                        canvas.drawLine(x, downy, x, upy, paint);
+                    }
                     if (useFileWrite) {
                         bw.write(Double.toString(Math.abs(toTransform[0][i]))+" ");
                     }
@@ -219,7 +236,10 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     }
                     if (i == (pastIntDecodedID.length - 1 )) {
                         pastIntDecodedIDChanged = false;
-                        sendJson(getUnixTime(), Long.valueOf(intDecodedID));
+                        if (sendToServer) {
+                            sendJson(getUnixTime(), Long.valueOf(intDecodedID));
+                        }
+                        displayDecodedID = intDecodedID;
                     }
                 }
             }
@@ -227,6 +247,34 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                 pastIntDecodedID[i] = pastIntDecodedID[i-1];
             }
             pastIntDecodedID[0] = intDecodedID;
+
+            int circleSize = 20;
+            posBitmap.eraseColor(Color.TRANSPARENT);
+            if (showMap && displayDecodedID != 0) {
+                if (displayDecodedID == 176) {
+                    // 545 E
+                    posCanvas.drawCircle(280, 295, circleSize, posPaint);
+                }
+                if (displayDecodedID == 160) {
+                    // 545 D
+                    posCanvas.drawCircle(215, 300, circleSize, posPaint);
+                }
+                if (displayDecodedID == 144) {
+                    // 545 G
+                    posCanvas.drawCircle(420, 440, circleSize, posPaint);
+                }
+                if (displayDecodedID == 80) {
+                    // 545 B
+                    posCanvas.drawCircle(280, 440, circleSize, posPaint);
+                }
+                if (displayDecodedID == 72) {
+                    // 545 A
+                    posCanvas.drawCircle(330, 580, circleSize, posPaint);
+                }
+                //posCanvas.drawCircle(50+displayDecodedID, 50+displayDecodedID, 12, posPaint);
+                //mapImageView.o
+                //mapImageView.draw
+            }
             /*
             if (intDecodedID != pastIntDecodedID) {
                 pastIntDecodedID = intDecodedID;
@@ -295,6 +343,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             TextView t = (TextView)findViewById(R.id.userName);
             t.setEnabled(true);
             sendJson(getUnixTime(), Long.valueOf(0));
+            posBitmap.eraseColor(Color.TRANSPARENT);
             //t.setActivated(true);
             started = false;
             startStopButton.setText("Start");
@@ -319,6 +368,8 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     	super.onStop();
     	started = false;
         sendJson(getUnixTime(), Long.valueOf(0));
+        posBitmap.eraseColor(Color.TRANSPARENT);
+        displayDecodedID = 0;
         startStopButton.setText("Start");
     	recordTask.cancel(true);
         if(useFileWrite) {
@@ -375,11 +426,26 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
         transformer = new RealDoubleFFT(blockSize);
 
         imageView = (ImageView) this.findViewById(R.id.imageView1);
-        bitmap = Bitmap.createBitmap((int)1024,(int)1400,Bitmap.Config.ARGB_8888);
+        bitmap = Bitmap.createBitmap((int)1024,(int)1000,Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
         paint = new Paint();
         paint.setColor(Color.GREEN);
         imageView.setImageBitmap(bitmap);
+        
+        mapImageView = (ImageView) this.findViewById(R.id.imageView2);
+        
+
+        posImageView = (ImageView) this.findViewById(R.id.imageView3);
+        posBitmap = Bitmap.createBitmap((int)1024,(int)900,Bitmap.Config.ARGB_8888);
+        posCanvas = new Canvas(posBitmap);
+        posPaint = new Paint();
+        posPaint.setColor(Color.RED);
+        posImageView.setImageBitmap(posBitmap);
+        //mapImageView.get;
+        //mapCanvas = new Canvas(mapBitmap);
+        //mapPaint = new Paint();
+        //mapPaint.setColor(Color.RED);
+        //mapImageView.setImageBitmap(mapBitmap);
         //imageView.
         mainActivity = this;
     }
@@ -442,5 +508,33 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             e.printStackTrace();
         }
     }
+    
+    public void onCbShowMapClicked(View view)
+    {
+        boolean checked = ((CheckBox) view).isChecked();
+        
+        if (checked) {
+            mapImageView.setVisibility(View.VISIBLE);
+            showMap = true;
+        }
+        else {
+            mapImageView.setVisibility(View.INVISIBLE);
+            showMap = false;
+        }
+    }
+    public void onCbSendToServerClicked(View view)
+    {
+        boolean checked = ((CheckBox) view).isChecked();
+        
+        if (checked) {
+            sendToServer = true;
+            pastIntDecodedIDChanged = true;
+        }
+        else {
+            sendToServer = false;
+            sendJson(getUnixTime(), Long.valueOf(0));
+        }
+    }
+    
 }
     
