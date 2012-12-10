@@ -9,7 +9,7 @@ default: pdf
 
 pdf: $(SOURCES)
 	$(LATEX) $(TEX); $(BIBTEX) $(TEX); $(LATEX) $(TEX); $(LATEX) $(TEX)
-	cp -p $(TEX).pdf final.pdf
+# cp -p $(TEX).pdf final.pdf
 
 view:
 	$(LATEX) $(TEX)
