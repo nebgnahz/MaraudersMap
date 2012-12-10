@@ -250,30 +250,32 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
 
             int circleSize = 20;
             posBitmap.eraseColor(Color.TRANSPARENT);
-            if (showMap && displayDecodedID != 0) {
-                if (displayDecodedID == 176) {
-                    // 545 E
-                    posCanvas.drawCircle(280, 295, circleSize, posPaint);
+            if (showMap) {
+                if (displayDecodedID != 0) {
+                    if (displayDecodedID == 176) {
+                        // 545 E
+                        posCanvas.drawCircle(280, 295, circleSize, posPaint);
+                    }
+                    if (displayDecodedID == 160) {
+                        // 545 D
+                        posCanvas.drawCircle(215, 300, circleSize, posPaint);
+                    }
+                    if (displayDecodedID == 144) {
+                        // 545 G
+                        posCanvas.drawCircle(420, 440, circleSize, posPaint);
+                    }
+                    if (displayDecodedID == 80) {
+                        // 545 B
+                        posCanvas.drawCircle(280, 440, circleSize, posPaint);
+                    }
+                    if (displayDecodedID == 72) {
+                        // 545 A
+                        posCanvas.drawCircle(330, 580, circleSize, posPaint);
+                    }
+                    //posCanvas.drawCircle(50+displayDecodedID, 50+displayDecodedID, 12, posPaint);
+                    //mapImageView.o
+                    //mapImageView.draw
                 }
-                if (displayDecodedID == 160) {
-                    // 545 D
-                    posCanvas.drawCircle(215, 300, circleSize, posPaint);
-                }
-                if (displayDecodedID == 144) {
-                    // 545 G
-                    posCanvas.drawCircle(420, 440, circleSize, posPaint);
-                }
-                if (displayDecodedID == 80) {
-                    // 545 B
-                    posCanvas.drawCircle(280, 440, circleSize, posPaint);
-                }
-                if (displayDecodedID == 72) {
-                    // 545 A
-                    posCanvas.drawCircle(330, 580, circleSize, posPaint);
-                }
-                //posCanvas.drawCircle(50+displayDecodedID, 50+displayDecodedID, 12, posPaint);
-                //mapImageView.o
-                //mapImageView.draw
             }
             /*
             if (intDecodedID != pastIntDecodedID) {
@@ -298,7 +300,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
 
             int textSize = 40;
             paint.setTextSize(textSize);
-            paint.setColor(Color.WHITE);
+            paint.setColor(Color.GRAY);
             int x = 0;
             int downy = 1100;
             int upy = 1000;
