@@ -80,7 +80,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     boolean pastIntDecodedIDChanged = false;
     
     double[] decodedResult = new double[8];
-    boolean useFileWrite = false;
+    boolean useFileWrite = true;
 
     double[] maxData = new double[8];
     int[] refSignalIdx = new int[8];
@@ -356,7 +356,34 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             started = false;
             startStopButton.setText("Start");
             recordTask.cancel(true);
+            if(useFileWrite) {
+                try {
+                        if (bw != null) {
+                                bw.close();
+                                bw = null;
+                        }
+                    if (fw != null) {
+                            fw.close();
+                            fw = null;
+                    }
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         } else {
+            if(useFileWrite) {
+                java.util.Date date = new java.util.Date();
+                try {
+                    //bufferedOutputStream jk = new bufferedOutputStream (New FileOutputStream ("out_" + data.getTime()+ ".txt")));
+                
+                    fw = new FileWriter(Environment.getExternalStorageDirectory().toString() + "/out_" + date.toString() + ".txt");
+                    bw = new BufferedWriter(fw);
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             TextView t = (TextView)findViewById(R.id.userName);
             t.setEnabled(false);
             pastIntDecodedIDChanged = true;
@@ -380,27 +407,10 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
         displayDecodedID = 0;
         startStopButton.setText("Start");
     	recordTask.cancel(true);
-        if(useFileWrite) {
-            try {
-                    if (bw != null) {
-                            bw.close();
-                            bw = null;
-                    }
-            	if (fw != null) {
-            	        fw.close();
-            	        fw = null;
-            	}
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
         
     public void onStart(){
     	super.onStart();
-    	java.util.Date date = new java.util.Date();
-
         refSignalIdx[0] = 1857;
         refSignalIdx[1] = 1868;
         refSignalIdx[2] = 1880;
@@ -414,17 +424,6 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
         }
         for (int i = 0; i < pastIntDecodedID.length; i++) {
             pastIntDecodedID[i] = 0;
-        }
-        if(useFileWrite) {
-            try {
-                //bufferedOutputStream jk = new bufferedOutputStream (New FileOutputStream ("out_" + data.getTime()+ ".txt")));
-    	    
-                fw = new FileWriter(Environment.getExternalStorageDirectory().toString() + "/out_" + date.getTime() + ".txt");
-                bw = new BufferedWriter(fw);
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     	setContentView(R.layout.main);
         
