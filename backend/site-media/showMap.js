@@ -40,8 +40,8 @@ function draw() {
 	    context.fillStyle = "rgba(" + colorList[i] + ", 0.3)";
 	    context.beginPath();
 	    context.moveTo(point.x, point.y);
-	    context.arc(point.x + Math.floor((Math.random()*10)+1), 
-			point.y + Math.floor((Math.random()*10)+1)
+	    context.arc(point.x + Math.floor((Math.random()*20)+1), 
+			point.y + Math.floor((Math.random()*20)+1)
 			, 15, 0, Math.PI*2, false);
 	    context.fill();
 
@@ -55,6 +55,5 @@ function draw() {
 	    context.fillText(displayNameList[key], 845, i*30+50);
 	    i++;
 	}
-	
     }
 }

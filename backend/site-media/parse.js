@@ -1,5 +1,5 @@
 // socket.io connection establishment
-var socket = io.connect('http://localhost:8888');
+var socket = io.connect('http://benzhang.name:8888');
 var displayList = {};
 var displayNameList = {};
 // for testing purpose
@@ -11,14 +11,6 @@ socket.on('news', function (data) {
 
 // mapping hash table
 var Mapping = {};
-
-// 72, 80, 144, 160, 176
-Mapping["72"] = new Point(277, 299);
-Mapping["80"] = new Point(239, 210);
-Mapping["144"] = new Point(277, 216); 
-Mapping["160"] = new Point(193, 105);
-Mapping["176"] = new Point(233, 105); 
-
 
 Mapping["545.1"] = new Point(277, 299);
 Mapping["545.2"] = new Point(239, 210);
@@ -35,7 +27,6 @@ Mapping["545.12"] = new Point(497, 231);
 Mapping["545.13"] = new Point(534, 149);
 Mapping["545.14"] = new Point(590, 153);
 
-
 // starting from 545P
 Mapping["545.16"] = new Point(638, 161);
 Mapping["545.17"] = new Point(691, 162);
@@ -45,6 +36,16 @@ Mapping["545.20"] = new Point(614, 311);
 
 // starting from 545X
 Mapping["545.24"] = new Point(592, 244); 
+
+
+// 72 K,  80 -> N , 144 -> R, 160, 176
+Mapping["72"] = Mapping["545.11"];
+Mapping["80"] = Mapping["545.14"];
+Mapping["144"] = Mapping["545.18"];
+
+Mapping["160"] = new Point(193, 105);
+Mapping["176"] = new Point(233, 105); 
+
 
 
 // communication with server on the newData
