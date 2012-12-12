@@ -6,6 +6,10 @@ Imagine one wants to know his indoor location without painful process of looking
 
 In addition to the local display of location, interesting applications can be built upon the aggregation of users' information. We design one such application called Marauder's Map\footnote{http://harrypotter.wikia.com/wiki/Marauder's\_Map}, which could show the active location of other users. This requires the front-end and back-end design to provide accessibility of the aggregated information.
 
+Our system architecture is shown in Fig.\,\ref{fig:sysarch} where each room will be installed with an ultrasound beacon to broadcast room ID. Smartphones act as receivers to process the audio recording and decode this ID. We design the ultrasound signal to encode room ID in different frequency band
+
+ The user is able to config whether or not to do HTTP POST to send such data to the aggregator. 
+
 
 \begin{figure}
   \centering
@@ -14,7 +18,6 @@ In addition to the local display of location, interesting applications can be bu
   \label{fig:sysarch}
 \end{figure}
 
-Our system architecture is shown in Fig.\,\ref{fig:sysarch} where 
 %% Master
 %%% Local Variables: 
 %%% mode: latex
