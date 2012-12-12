@@ -58,6 +58,7 @@ dist
 *.vrb
 *.xdy
 *.tdo
+*.pdf
 
 ### ignore for android application
 # built application files
