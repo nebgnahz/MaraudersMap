@@ -80,7 +80,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     boolean pastIntDecodedIDChanged = false;
     
     double[] decodedResult = new double[8];
-    boolean useFileWrite = true;
+    boolean useFileWrite = false;
 
     double[] maxData = new double[8];
     int[] refSignalIdx = new int[8];
