@@ -5,17 +5,26 @@
 % each member's role in one paragraph
 Ben Zhang working on Backend server.
 Hokeun worked on android development.
-Zachary works on hardware.
+Zachary Hargreaves primarily developed the hardware for the ultrasound beacon.  This task required constuction of code to generate a digital sine wave then processing of the signal in order to be compatable with the ultra sound reciever.   
 
 \subsection{Related with EE149 Course}
 \label{sec:related-with-ee149}
 \subsubsection{Key concepts learned from class}
 \label{sec:key-concepts-learned}
-interfacing with sensors (microphone), low-level uC programming (Arduino), modeling.
+
+Interfacing with sensors (microphone) and understanding the imperfect nature of sensor signals proved valuable when filtering high frequency disturbances in our signals.  The filtering methods introduced in the first lab were directly related to the processing required in our project.  Learnig low-level uC programming was useful when decoding the data sheets in order to understand the role each register played in implementing the ISR.  System modeling helped us avoid future probelems before implementing our network protocol.
 
 \subsubsection{Course feedback}
 \label{sec:course-feedback}
-Pretty good course. Hope to be able to provide more hardware components rather than us waiting for the arrival of order.
+Pretty good course. Having more hardware components around the lab would help many projects out. This would streamline the debugging process and encourage cross group collaboration because many groups using similar (class provided) components would be able to help one another out.  
+
+\subsubsection{Technical Challenges}
+\label{sec:technical-challenges}
+Aside from the bottle necks caused by delivery times for specialized components, understanding amplification circuits for low powered systems was a large technical challenge.
+
+TODO
+ - Noise and interference for the signal   
+- stable server 
 
 %% Master
 %%% Local Variables: 
