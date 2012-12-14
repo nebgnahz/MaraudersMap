@@ -3,8 +3,10 @@
 \subsection{Role Played in the Project}
 \label{sec:role-played-project}
 % each member's role in one paragraph
-Ben Zhang working on Backend server.
+Ben Zhang has worked both on the entire system architecture design and the back-end aggregation server support. Besides, the design of the experimentation which characterize ultrasound behavior inside a room and the related Matlab script to analyze results are also his work in this project.
+
 Hokeun Kim has mostly worked on developing the Android application, implementing Fast Fourier Transform (FFT) on collected audio samples, decoding of location information from the FFT results on ultrasonic signals and two-level filtering algorithms to stabilize decoded results. He also designed the user interface of Android application.
+
 Zachary Hargreaves primarily developed the hardware for the ultrasound beacon.  This task required constuction of code to generate a digital sine wave then processing of the signal in order to be compatable with the ultra sound reciever.   
 
 \subsection{Related with EE149 Course}
@@ -12,19 +14,25 @@ Zachary Hargreaves primarily developed the hardware for the ultrasound beacon.  
 \subsubsection{Key concepts learned from class}
 \label{sec:key-concepts-learned}
 
-Interfacing with sensors (microphone) and understanding the imperfect nature of sensor signals proved valuable when filtering high frequency disturbances in our signals.  The filtering methods introduced in the first lab were directly related to the processing required in our project.  Learnig low-level uC programming was useful when decoding the data sheets in order to understand the role each register played in implementing the ISR.  System modeling helped us avoid future probelems before implementing our network protocol.
+Interfacing with sensors (microphone) and understanding the imperfect nature of sensor signals proved valuable when filtering high frequency disturbances in our signals. The filtering methods introduced in the first lab were directly related to the processing required in our project. 
+
+Learnig low-level microcontroller programming was useful when decoding the data sheets in order to understand the role each register played in implementing the ISR. 
+
+System modeling helped us avoid future problems before implementing our network protocol.
 
 \subsubsection{Course feedback}
 \label{sec:course-feedback}
-Pretty good course. Having more hardware components around the lab would help many projects out. This would streamline the debugging process and encourage cross group collaboration because many groups using similar (class provided) components would be able to help one another out.  
+Overall, this is a nice class of giving introduction about embedded system, covering modeling, design and verification. 
+
+One major feedback is the suggestion of having more hardware components around the lab. This would not only largely reduce the amount of time each group is waiting for components, but also giving us more exposures to the hardware implementation.
 
 \subsubsection{Technical Challenges}
 \label{sec:technical-challenges}
 Aside from the bottle necks caused by delivery times for specialized components, understanding amplification circuits for low powered systems was a large technical challenge.
+
 For decoding location information from ultrasounds, coping with noise and interference caused by environments and signal itself was the biggest technical challenge. To deal with varying signal strength according to frequency range and distance from the ultrasound generator was another challenge for developing the Android application.
-TODO
- - Noise and interference for the signal   
-- stable server 
+
+The back-end server is built upon sMAP, node.js and HTML5; all these immature technology gives fully flexibility of achieving functionaility. However, the stability of the server is not ideal -- any unexpected request could easily crashes the server. Some design considerations like seperating the static files with the real-time stream data do help some, but the overall stability is one the main technical challenges.
 
 %% Master
 %%% Local Variables: 
