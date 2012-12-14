@@ -2,9 +2,9 @@
 \label{sec:ultrasound-beacons}
 
 
-	Commercially viable ultrasound beacons were designed to minimize consumer cost while maintaining easy portability.  While adhering to these design specifications inherent system constraints were introduced. Creating a low powered solution reliant on battery power was ideal due to portability requirements.  The ultrasound nodes were initially designed for room level localization requiring cell phone microphones to detect audio emissions from 0 -10 meters away from the beacons. After receiving data from the beacons a fast Fourier transformation was computed to determine the frequency content of the signal received.  The fast Fourier transformation requires a precise sinusoidal input for interference not to occur in frequencies in close proximity with the initially generated frequency.  
+Commercially viable ultrasound beacons were designed to minimize consumer cost while maintaining easy portability.  While adhering to these design specifications inherent system constraints were introduced. Creating a low power solution reliant on battery power was ideal due to portability requirements.  The ultrasound nodes were initially designed for room level localization requiring cell phone microphones to detect audio emissions from 0-10 meters away from the beacons. After receiving data from the beacons, a fast Fourier transformation was computed to determine the frequency content of the signal received.  The fast Fourier transformation requires a precise sinusoidal input for interference not to occur in frequencies in close proximity with the initially generated frequency.  
 
-	With all of these design constraints considered an Atmega328p was used to generate digital sinusoidal signals, this digital output was processed by a DAC, smoothed with a Chebyshev filter, and then amplified.  
+With all of these design constraints considered, an Atmega328p was used to generate digital sinusoidal signals; this digital output was processed by a DAC, smoothed with a Chebyshev filter, and then amplified (a schematic illustration is shown in Fig.\,\ref{fig:ultrasound_design}).
  
 \begin{figure}[h]
   \centering
@@ -13,9 +13,9 @@
   \label{fig:ultrasound_design}
 \end{figure}
 
-	In order to generate samples at a consistent rate an interrupt service routine synced with the Atmega’s internal 16MHz clock was implemented. With this high sample rate,  generating precise frequencies was feasible but bottle necked by the interrupt service routine's (ISR) execution time resulting in repetition of sample values until execution was completed  (Fig 3). The execution time for the ISR was directly dependent on the method used to set digital output values. The DigitalWrite() method provided in the Arduino library is an abstraction created to make ease of use for users, unfortunately this abstraction adds overhead and resulted in a 24 microsecond execution time whereas writing to registers directly reduced execution time significantly bringing it down to 5 microsecond.  
+In order to generate samples at a consistent rate, an interrupt service routine (ISR) synced with the Atmega's internal 16MHz clock was implemented. With this high sample rate,  generating the precise frequency was feasible but bottle necked by the ISR's execution time resulting in repetition of sample values until execution was completed (Fig.\,\ref{fig:filter_effect}). The execution time for the ISR was directly dependent on the method used to set digital output values. The {\texttt{DigitalWrite()}} method provided in the Arduino library is an abstraction created to make ease of use for users. Unfortunately this abstraction adds overhead and resulted in a 24 microsecond execution time whereas writing to registers directly reduced execution time significantly bringing it down to 5 microsecond.  
 
-	In order to smooth out the voltage plateaus caused by the ISR a low pass filter was introduced (Fig 3). A Chebyshev low pass filter with a cut off frequency of 17 kHz performed optimally to generate a more precise/smooth output.  Once filtered the signal was at a fine enough resolution for FFT operations to be performed with no noise/interference in unwanted frequencies.  The output from the filter yielded a 2 Volt signal with about 20 mA of current so amplification was needed in order to drive the 0.5 Watt speaker. 
+In order to smooth out the voltage plateaus caused by the ISR, a low pass filter was introduced (Fig.\,\ref{fig:filter_effect}). A Chebyshev low pass filter performed optimally to generate a more precise/smooth output. Once filtered, the signal was at a fine enough resolution for FFT operations to be performed with no noise/interference in unwanted frequencies. The output from the filter yielded a 2 Volt signal with about 20 mA of current so amplification was needed in order to drive the 0.5 Watt speaker.
 
 \begin{figure}[h]
   \centering
@@ -25,10 +25,7 @@
   \label{fig:filter_effect}
 \end{figure}
 
-	The LM386 power amplifier was ideal due to the low power constraints of the project.  Upon implementation it was immediately apparent the amplifier was not performing to manufacturing specifications making the output challenging to debug. Other amplifiers were implemented but required too much supply voltage ($>$ 9 Volts) to be feasible candidates for the project.  Due to time limitations amplification was not properly achieved but amplification to the required specifications is certainly attainable. 
-
-
-
+The LM386 power amplifier was ideal due to the low power constraints of the project. Upon implementation it was immediately apparent the amplifier was not performing to manufacturing specifications making the output challenging to debug. Other amplifiers were implemented but required too much supply voltage ($>$ 9 Volts) to be feasible candidates for the project.  Due to time limitations, the amplification was not properly achieved but amplification to the required specifications is certainly attainable. 
 
 %% Master
 %%% Local Variables: 
