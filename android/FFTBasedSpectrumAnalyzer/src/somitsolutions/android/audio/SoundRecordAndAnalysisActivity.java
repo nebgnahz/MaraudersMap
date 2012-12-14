@@ -80,7 +80,9 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     boolean pastIntDecodedIDChanged = false;
     
     double[] decodedResult = new double[8];
-    boolean useFileWrite = false;
+    boolean useFileWrite = true;
+    boolean writeRawData = false;
+    boolean writeDecodedData = true;
 
     double[] maxData = new double[8];
     int[] refSignalIdx = new int[8];
@@ -158,12 +160,12 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     if (!showMap) {
                         canvas.drawLine(x, downy, x, upy, paint);
                     }
-                    if (useFileWrite) {
+                    if (useFileWrite && writeRawData) {
                         bw.write(Double.toString(Math.abs(toTransform[0][i]))+" ");
                     }
                 }
 
-                if (useFileWrite) {
+                if (useFileWrite && writeRawData) {
                     bw.write(";");
                 }
             }
@@ -226,6 +228,17 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     intDecodedID <<= 1;
                 }
             }
+            // decoded id
+
+            try {
+                if (useFileWrite && writeDecodedData) {
+                    bw.write(intDecodedID+" ");
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            
             if (intDecodedID != pastIntDecodedID[0]) {
                 pastIntDecodedIDChanged = true;
             }
@@ -248,6 +261,16 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
             }
             pastIntDecodedID[0] = intDecodedID;
 
+            // filtered id
+            try {
+                if (useFileWrite && writeDecodedData) {
+                    bw.write(displayDecodedID+" ");
+                }
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            
             int circleSize = 20;
             posBitmap.eraseColor(Color.TRANSPARENT);
             if (showMap) {
