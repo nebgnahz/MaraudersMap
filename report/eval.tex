@@ -1,13 +1,13 @@
 \section{Evaluation}
 \label{sec:evaluation}
 
-In this section, we performed several experiments to characterize such an ultrasound localization system.
+In this section, we performed several experiments to characterize such an ultrasound localization system. Most of the experiments are done in DOP center at Cory Hall, with a Macbook Pro as ultrasound transmitter and Samsung GALAXY S III phone (Android 4.1) running our application as the receiver.
 
 \subsection{Power Consumption}
 \label{sec:power-consumption}
-We have measured the power consumption of our application on LG Revolution VS910 with Android 2.3.4. The summarized measured results are in Table.\,\ref{tab:power}. We could easily found out that having this application running in the background doesn't affect much of the power consumption. While having the application running in front, since there are a lot of screen drawings on the UI update event (either display the spectrum or the map), the application apparently burdens the battery (with an increase of about 59.8\% power consumption than usual).
+We measured the power consumption of our application using LG Revolution VS910 with Android 2.3.4  (in this case, we used an experiment phone due to the potential risks). The summarized measured results are in Table.\,\ref{tab:power}. We could easily find out that having this application running in the background doesn't affect much of the power consumption. As for the case that the application runs in front, since there are a lot of screen drawings on the UI update events (either display the spectrum or the map), the application apparently burdens the battery, with an increase of about 59.8\% power consumption than usual.
 
-Since there are so many factors which could potentially influence the power consumption, the measurement is mostly for some rough estimation. But one interesting thing that we do observe by measuring the power consumption is that, most power is used for screen, and more than 100mA current is usually used for radio and communication (there is occasional peaks when the screen is off). 
+Since there are so many factors which could potentially influence the power consumption, the measurement is mostly for rough estimation. But one interesting thing that we do observe by measuring the power consumption is that, a large portion of the power is used for screen, and more than 100mA current is usually used for radio and communication (there is occasional peaks when the screen is off). 
 
 \begin{table}
   \centering
@@ -48,9 +48,9 @@ Since there are so many factors which could potentially influence the power cons
 
 \subsection{Signal Strength}
 \label{sec:signal-strength}
-We measure the received siganl strength using commercial laptop (Macbook Pro). The maximum output sound level is 86$\sim$90dB. Since we have converted the received signal to frequency domain, the results are only relative values for the purpose of illustration of ultrasound's characteristics. The obtained figure is shown in Fig.\,\ref{fig:strength}, where we measured four different frequency point, ranging from 20 inches to 140 inches. We conducted our experiment in Room 545K, whose length is around 150 inches. 
+We measure the received siganl strength of signals in different frequencies. The maximum output sound level from our Macbook generator is 86$\sim$90dB. Since we have converted the received signal to frequency domain using FFT, the results are only relative values for the purpose of illustration of ultrasound's characteristics. The obtained figure is shown in Fig.\,\ref{fig:strength}, where we tested four different frequency points. Our distance parameter ranges from 20 inches to 140 inches. This experiment is done in Room 545K, whose length is around 150 inches. 
 
-This figure shows that generally the received ultrasound signal is attenuating with the increasing of distances. There might exist several points where the received signal strength is larger than those who are nearer; this is mainly caused by all kinds of reflection inside this room. Another observation is that with the increase of signal frequency, the signal strength is descreasing due to the imperfect frequency response of most microphones used in smartphones, but these several signals are still large enough to be differetiated from the nosie.
+This figure shows that generally the received ultrasound signal is attenuating with the increase of distance. There might exist several points where the received signal strength is larger than those who are nearer; this is mainly caused by all kinds of reflection inside this room. Another observation is that with the increase of signal frequency, the signal strength is descreasing due to the imperfect frequency response of most microphones used in smartphones, but these signals are still large enough to be differetiated from the nosie.
 
 \begin{figure}
   \centering
@@ -62,9 +62,9 @@ This figure shows that generally the received ultrasound signal is attenuating w
 
 \subsection{Obstacle Blocking}
 \label{sec:obstacle-blocking}
-As we have argued in Sec.\,\ref{sec:introduction} that the ultrasound can be easily reflected inside a room while the wall can be perfect deliminator of spaces. In this section, we describes the experiment of validating such idea by measuring both the signal strength and the detection rate. We place the phone on both side of the glass wall of Room 545K, and run this application both for more than 1 minute. 
+As we have argued in Sec.\,\ref{sec:introduction} that the ultrasound can be easily reflected inside a room while the wall can be the perfect deliminator of spaces. In this section, we describes the experiment of validating such idea by measuring both the signal strength and the accuracy. We place the phone on both side of the glass wall of Room 545K, and run this application both for more than 1 minute.
 
-The measurement of received signal after FFT operation is shown in Fig.\,\ref{fig:wallblock}. It's clearly attenuated after the blocking of the wall. We then calculate the detected results (the groundtruth in this case is 10110000), the ``inside'' experiment can mostly correctly detect the room ID, with an accuracy of 96.06\% (it's 91.25\% before the filtering) while the ``outside'' experiment always outputs 0.
+The measurement of received signal after FFT operation is shown in Fig.\,\ref{fig:wallblock}. It's clearly attenuated after the blocking of the wall. We then calculate the detected results (the groundtruth in this case is 10110000). In the ``inside'' experiment, mostly the phone can correctly detect the room ID, with an accuracy of 96.06\% (it's 91.25\% before the filtering); while in the ``outside'' experiment, the detection always outputs 0.
 
 \begin{figure}
   \centering
@@ -76,7 +76,8 @@ The measurement of received signal after FFT operation is shown in Fig.\,\ref{fi
 
 \subsection{Room Coverage}
 \label{sec:room-coverage}
-In last section, we examined the effect of walls which will block the signal easily, and therefore the signal should be bouncing back and forth inside the room to create a fully coverage. We did experiment about such coverage characteristics but measuring eight different points inside the room. We compare the detected results with the groundtruth (both before and after filtering) and draw the related accuracy in Fig.\,\ref{fig:coverage}. And from the result we could easily see that the ultrasound signal covers the entire room, and works pretty well for corner-cases. 
+In the last section, we examined the effect of walls which will block the signal easily, and therefore the signal should be bouncing back and forth inside the room to create a fully coverage. We did experiment about such coverage characteristics by measuring eight different points inside the room. We compare the detected results with the groundtruth (both before and after filtering) and visualize the related accuracy in Fig.\,\ref{fig:coverage}. And from the result we could see that the ultrasound signal covers the entire room, and works pretty well for corner-cases. 
+
 \begin{figure}
   \centering
   \includegraphics[width=0.6\columnwidth]{545R.png}
@@ -89,7 +90,7 @@ In last section, we examined the effect of walls which will block the signal eas
 \label{sec:noise-resistance}
 Another great feature we utilize about ultrasound is its noise resistence. Since talking, playing music and walking will not generate much signal that exceed 20kHz, such an ultrasound-based beacon should be able to resist noise pretty well. In order validate such idea of noise resistence, we need to know how it performs with the existence of different kinds of noise (such as speaking, coughing, music, etc.). 
 
-The experiment result is shown in Table.\,\ref{tab:noiseres}, and it's clear that most human activity won't affect the detection too much. Clapping does affect this since they contains high frequency signals. But this will only affect a lot when clapping is continued for a long time, otherwise such noise will be removed by the exponential averaging filter.
+The experiment result is shown in Table.\,\ref{tab:noiseres}, and it's clear that most human activity won't affect the detection too much. Clapping does affect this since they contains high frequency signals. But this will only affect a lot when clapping is continued with large volumne and for a long time, otherwise such noise will be removed by the exponential averaging filter.
 \begin{table}
   \centering
   \begin{tabular}{|l|c|c|}
@@ -109,11 +110,11 @@ The experiment result is shown in Table.\,\ref{tab:noiseres}, and it's clear tha
 
 \subsection{Reception Rate}
 \label{sec:reception-rate}
-In this experiement, we plan to examine the overall detection of our algorithm. Since there are multipath effect, other kinds of noises, the data reception rate will not be perfect. Our exponential moving average algorithm (in Sec.\,\ref{sec:android-application}) is used to cope with these imperfections, and some effect has been shown in previous experiments.
+In this experiement, we plan to examine the overall detection of our algorithm. Since there are multipath effects, other kinds of noises, and maybe users' movement, the data reception rate will not be perfect. Our exponential moving average algorithm (in Sec.\,\ref{sec:android-application}) is used to cope with these imperfections, and its effectiveness has been demonstrated in each seperated experiment.
 
-We run our application for 2 mins continously to collect the raw detected results and the filtered results in the normal environment (phone holder moves around naturally during this experiment). The result is shown in Fig.\,\ref{fig:reception}, where we cluster the detected results using the histogram to illustrage the errors. The groundtruth room ID is 176, where the signal is successfully detected most of the time. Bit errors do happen occasionally; from our experiment, the overall reception rate is 67.60\%. After the filtering, some sporadic errors are corrected, and the overall detection has been improved to 87.50\%. 
+We run our application for 2 mins continously to collect the raw detected results and the filtered results in normal environment (phone holder moves around naturally during this experiment with all kinds of noises). The result is shown in Fig.\,\ref{fig:reception}, where we cluster the detected results using the histogram to illustrate the errors. The groundtruth room ID is 176, and the signal is successfully detected most of the time. Bit errors do happen occasionally; from our experiment, the overall reception rate is 67.60\%. After the filtering, some sporadic errors are corrected, and the overall detection has been improved to 87.50\%. 
 
-Further observation reveals that most of the wrong detection resulted in Room ID 0, which means no reliable signal at all. We could just infer users' location as previous room since it's not physically feasible of changing room drastically; such semantic combination with real scenario will yield 97.25\% accuracy.
+Further observation reveals that most of the wrong detection resulted in Room ID 0, which means no reliable signal at all. We could just infer users' location as the previous room since it's not physically feasible of changing room that rapidly; such semantic combination of detected results with real scenario consideration will yield 97.25\% accuracy.
 
 \begin{figure}
   \centering
