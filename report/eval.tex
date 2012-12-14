@@ -60,14 +60,59 @@ This figure shows that generally the received ultrasound signal is attenuating w
   \label{fig:strength}
 \end{figure}
 
+\subsection{Obstacle Blocking}
+\label{sec:obstacle-blocking}
+As we have argued in Sec.\,\ref{sec:introduction} that the ultrasound can be easily reflected inside a room while the wall can be perfect deliminator of spaces. In this section, we describes the experiment of validating such idea by measuring both the signal strength and the detection rate. We place the phone on both side of the glass wall of Room 545K, and run this application both for more than 1 minute. 
+
+The measurement of received signal after FFT operation is shown in Fig.\,\ref{fig:wallblock}. It's clearly attenuated after the blocking of the wall. We then calculate the detected results (the groundtruth in this case is 10110000), the ``inside'' experiment can mostly correctly detect the room ID, with an accuracy of 96.06\% (it's 91.25\% before the filtering) while the ``outside'' experiment always outputs 0.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\columnwidth]{WallBlocking}
+  \vspace{-0.3cm}
+  \caption{The effect of wall blocking}
+  \label{fig:wallblock}
+\end{figure}
+
 \subsection{Room Coverage}
 \label{sec:room-coverage}
+In last section, we examined the effect of walls which will block the signal easily, and therefore the signal should be bouncing back and forth inside the room to create a fully coverage. We did experiment about such coverage characteristics but measuring eight different points inside the room. We compare the detected results with the groundtruth and draw the accuracy Fig.\,\ref{fig:coverage}.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.9\columnwidth]{WallBlocking}
+  \vspace{-0.3cm}
+  \caption{Room coverage experiment}
+  \label{fig:coverage}
+\end{figure}
+
+\subsection{Noise Resistance}
+\label{sec:noise-resistance}
+Another great feature we utilize about ultrasound is its noise resistence. Since talking, playing music and walking will not generate much signal that exceed 20kHz, such an ultrasound-based beacon should be able to resist noise pretty well. In order validate such idea of noise resistence, we need to know how it performs with the existence of different kinds of noise (such as speaking, coughing, music, etc.). 
+
+The experiment result is shown in Table.\,\ref{tab:noiseres}, and it's clear that most human activity won't affect the detection too much. Clapping does affect this since they contains high frequency signals. But this will only affect a lot when clapping is continued for a long time, otherwise such noise will be removed by the exponential averaging filter.
+\begin{table}
+  \centering
+  \begin{tabular}{|l|c|c|}
+    \hline
+    noise source & accuracy (before filtering) & accuracy (after filtering) \\
+    \hline
+    speaking &  99.93\% & 100\% \\
+    music  &  94.44\% & 100\% \\
+    coughing & 97.25\% & 100\% \\
+    clapping & 69.17\% & 74.58\% \\
+    walking & 100\% & 100\% \\
+    \hline
+  \end{tabular}
+  \caption{Noise resistence characteristics}
+  \label{tab:noiseres}
+\end{table}
 
 \subsection{Reception Rate}
 \label{sec:reception-rate}
-In this experiement, we plan to examine the overall detection of our algorithm. Since there are many kinds of noises, reflections around, the data reception rate will not be perfect. Our exponential moving average algorithm (in Sec.\,\ref{sec:android-application}) is used to cope with these imperfections, and we will investigate the effect of this algorithm.
+In this experiement, we plan to examine the overall detection of our algorithm. Since there are multipath effect, other kinds of noises, the data reception rate will not be perfect. Our exponential moving average algorithm (in Sec.\,\ref{sec:android-application}) is used to cope with these imperfections, and some effect has been shown in previous experiments.
 
-We run our application for 2 mins continously to collect the raw detected results and the filtered results in the normal environment (phone holder moves around during this experiment). The result is shown in Fig.\,\ref{fig:reception}, where we cluster the detected results using the histogram to illustrage the errors. The groundtruth room ID is 176, where the signal is successfully detected most of the time. Bit errors do happen occasionally; from our experiment, the overall reception rate is 67.60\%. After the filtering, some sporadic errors are corrected, and the overall detection has been improved to 87.50\%. 
+We run our application for 2 mins continously to collect the raw detected results and the filtered results in the normal environment (phone holder moves around naturally during this experiment). The result is shown in Fig.\,\ref{fig:reception}, where we cluster the detected results using the histogram to illustrage the errors. The groundtruth room ID is 176, where the signal is successfully detected most of the time. Bit errors do happen occasionally; from our experiment, the overall reception rate is 67.60\%. After the filtering, some sporadic errors are corrected, and the overall detection has been improved to 87.50\%. 
 
 Further observation reveals that most of the wrong detection resulted in Room ID 0, which means no reliable signal at all. We could just infer users' location as previous room since it's not physically feasible of changing room drastically; such semantic combination with real scenario will yield 97.25\% accuracy.
 
@@ -79,21 +124,6 @@ Further observation reveals that most of the wrong detection resulted in Room ID
   \label{fig:reception}
 \end{figure}
 
-
-\subsection{Obstacle Blocking}
-\label{sec:obstacle-blocking}
-As we have argued in Sec.\,\ref{sec:introduction} that the ultrasound can be easily reflected inside a room while the wall can be perfect deliminator of spaces. We conducted experiment of validating such idea by measuring both the signal strength and the detection rate. We place the phone on both side of the glass wall of Room 545K, and run this application both for more than 1 minute. The measurement after FFT is shown in Fig.\,\ref{fig:wallblock}. And if we calculate the detected results, the inside experiment could correctly detect the room ID, with an accuracy of 96.06\% (it's 91.25\% before the filtering) while the outside experiment always outputs 0.
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.9\columnwidth]{WallBlocking}
-  \vspace{-0.3cm}
-  \caption{The effect of wall blocking}
-  \label{fig:wallblock}
-\end{figure}
-
-\subsection{Noise Resistance}
-\label{sec:noise-resistance}
 
 
 
