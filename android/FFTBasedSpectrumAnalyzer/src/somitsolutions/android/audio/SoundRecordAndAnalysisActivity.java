@@ -81,7 +81,7 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
     
     double[] decodedResult = new double[8];
     boolean useFileWrite = true;
-    boolean writeRawData = false;
+    boolean writeRawData = true;
     boolean writeDecodedData = true;
 
     double[] maxData = new double[8];
@@ -163,10 +163,6 @@ public class SoundRecordAndAnalysisActivity extends Activity implements OnClickL
                     if (useFileWrite && writeRawData) {
                         bw.write(Double.toString(Math.abs(toTransform[0][i]))+" ");
                     }
-                }
-
-                if (useFileWrite && writeRawData) {
-                    bw.write(";");
                 }
             }
             catch (IOException e) {
