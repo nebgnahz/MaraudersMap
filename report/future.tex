@@ -2,8 +2,9 @@
 \section{Future Work}
 \label{sec:future-work}
 
-What may possibly be done afterwards?
+In this project, we've investigated the possibility of utilizing ultrasound to achieve semantic localization. The characteristics of ultrasound is nice to cover each room and not crossing any walls. This is perfect for room-level detection and potentially for cubicle-level (since there is still such blocking board between cubicles). But for open area such as the exploratorium at San Fransisco, this won't work such well. But the inaudibility of ultrasound and the slow speed (in comparison to light and electromagnetic wave) will enable time-of-flight (TOF) based localization. Further investigation can be done for this extension.
 
+On the other hand, we haven't utilized other sensors on the mobile phone to perform dead reckoning (DR). Many recent researches have been showing that using particle filters for the accelerometer readings can determine the trajectory of users. But such approach is undermined by the drift caused by the error of sensor measurement. The ultrasound localization could act as landmarks to correct such drift, and many works might be done in this direction.
 %% Master
 %%% Local Variables: 
 %%% mode: latex
